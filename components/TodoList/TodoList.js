@@ -1,5 +1,10 @@
 import React from 'react';
-import { FlatList } from 'react-native';
+import {
+    FlatList,
+    StyleSheet,
+    SafeAreaView,
+    ActivityIndicator,
+} from "react-native";
 import TodoListItem from './TodoListItem';
 import { useTodo } from "../../context/todoContext";
 
@@ -8,20 +13,26 @@ export default function TodoList(props) {
 
 
     return (
-        <FlatList
-            style={styles.container}
-            data={todos}
-            renderItem={TodoListItem}
-            keyExtractor={(item) => item.id}
-        />
+        <SafeAreaView style={styles.container}>
+            {loading ?
+                <ActivityIndicator size="small" color="#fff" />
+                :
+                <FlatList
+                    data={todos}
+                    renderItem={({ item }) => <TodoListItem {...item} />}
+                    keyExtractor={(item) => `${item.id}-${item.title}`}
+                />
+            }
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
+        marginRight: 20,
+        marginLeft: 20,
+        alignItems: "stretch",
         justifyContent: "center",
     },
 });
