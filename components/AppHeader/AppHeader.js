@@ -7,7 +7,6 @@ export default function AppHeader(props) {
 
     return (
         <Header
-            barStyle=""
             containerStyle={styles.header}
             centerComponent={{
                 text: "TODOS",

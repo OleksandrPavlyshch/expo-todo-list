@@ -20,7 +20,7 @@ export default function TodoList(props) {
                 <FlatList
                     data={todos}
                     renderItem={({ item }) => <TodoListItem {...item} />}
-                    keyExtractor={(item) => `${item.id}-${item.title}`}
+                    keyExtractor={(item, index) => `${index}-${item.id}-${item.title}`}
                 />
             }
         </SafeAreaView>
@@ -30,8 +30,8 @@ export default function TodoList(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginRight: 20,
-        marginLeft: 20,
+        marginRight: 10,
+        marginLeft: 10,
         alignItems: "stretch",
         justifyContent: "center",
     },

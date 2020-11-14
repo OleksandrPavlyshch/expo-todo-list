@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet } from "react-native";
-import TouchableScale from "react-native-touchable-scale";
+import { StyleSheet, TouchableOpacity } from "react-native";
+// import TouchableScale from "react-native-touchable-scale";
 import { ListItem } from 'react-native-elements';
 import { useTodo } from "../../context/todoContext";
 
@@ -8,6 +8,7 @@ export default function TodoListItem({ title, id, completed }) {
     const { changeTodo, removeTodo } = useTodo();
 
     function updateTodoHandler () {
+        console.log('update todo')
         changeTodo({
             id,
             newData: {
@@ -19,10 +20,11 @@ export default function TodoListItem({ title, id, completed }) {
     return (
         <ListItem
             bottomDivider
-            Component={TouchableScale}
-            friction={90} //
-            tension={100} // These props are passed to the parent component (here TouchableScale)
-            activeScale={0.95}
+            // Component={TouchableScale}
+            Component={TouchableOpacity}
+            friction={95}
+            tension={50}
+            activeScale={0.98}
             containerStyle={styles.Item}
             linearGradientProps={{
                 colors: completed

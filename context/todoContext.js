@@ -8,6 +8,8 @@ import {
     TODOS_URL,
 } from "../constants";
 
+import {FirebasrSDK} from "../firebase/firebase";
+
 const TodoContext = React.createContext();
 
 export const useTodo = () => {
@@ -83,7 +85,7 @@ const reducer = (state, action) => {
 export const TodoProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, {
         todos: [],
-        loading: true,
+        loading: false,
         history: {
             delited: 0,
             completed: 0,
@@ -101,6 +103,7 @@ export const TodoProvider = ({ children }) => {
         fetch(TODOS_URL)
             .then((response) => response.json())
             .then((json) => addTodos(json));
+
     }, []);
 
     return (
