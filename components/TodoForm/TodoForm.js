@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Input, Icon, Button, Text } from "react-native-elements";
+import { Input, Icon, Button } from "react-native-elements";
 import {  View, StyleSheet } from "react-native";
-import { useTodo } from "../../context/todoContext";
+import { useTodo, user } from "../../context/todoContext";
 import { Formik } from "formik";
 import * as yup from "yup";
 
@@ -17,7 +17,6 @@ export default function Todoform() {
     const submitHandler = (values, actions) => {
         addTodo({
             title: values.todo,
-            id: Date.now(),
             completed: false,
         });
         actions.setSubmitting(false);
@@ -38,7 +37,6 @@ export default function Todoform() {
                     touched,
                     handleChange,
                     handleSubmit,
-                    handleBlur,
                     isSubmitting,
                 }) => (
                     <React.Fragment>

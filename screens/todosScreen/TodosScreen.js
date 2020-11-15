@@ -1,35 +1,28 @@
-import React from 'react';
-import { Text, View, StyleSheet } from "react-native";
+import React from "react";
+import { StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import AppHeader from "../../components/AppHeader/AppHeader";
 import Todoform from "../../components/TodoForm/TodoForm";
 import TodoListItem from "../../components/TodoList/TodoList";
-import { TodoProvider } from "../../context/todoContext";
+import AppHeader from "../../components/AppHeader/AppHeader";
 
 export default function TodosScreen(props) {
     return (
-        <TodoProvider>
-            <LinearGradient
-                colors={["#380036", "#0CBABA"]}
-                style={styles.container}
-            >
-                <AppHeader />
-                <Todoform />
-                <TodoListItem />
-
-
-            </LinearGradient>
-        </TodoProvider>
+        <LinearGradient
+            colors={["#380036", "#0CBABA"]}
+            style={styles.container}
+        >
+            <Todoform />
+            <TodoListItem />
+        </LinearGradient>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
+        flexDirection: "column",
         backgroundColor: "#fff",
         alignItems: "stretch",
         justifyContent: "space-between",
     },
 });
-

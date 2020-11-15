@@ -1,4 +1,6 @@
 import * as firebase from "firebase";
+import "@firebase/auth";
+import "@firebase/firestore";
 
 // Optionally import the services that you want to use
 //import "firebase/auth";
@@ -18,6 +20,8 @@ const firebaseConfig = {
     appId: "1:422314520990:web:9b5b648ed98e37b9c6a68f",
 };
 
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 
-
-export const FirebasrSDK = firebase.initializeApp(firebaseConfig);
+export { firebase };

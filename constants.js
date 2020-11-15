@@ -4,3 +4,4 @@ export const ADD_TODOS = "ADD_TODOS";
 export const REMOVE_ALL_TODOS = "REMOVE_ALL_TODOS";
 export const REMOVE_TODO = "REMOVE_TODO";
 export const CHANGE_TODO = "CHANGE_TODO";
+export const SET_USER = "SET_USER";

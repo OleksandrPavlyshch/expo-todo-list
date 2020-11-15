@@ -37,5 +37,6 @@ const styles = StyleSheet.create({
     headerCenter: {
         color: "#fff",
         fontSize: 24,
+        fontWeight: "bold",
     },
 });
