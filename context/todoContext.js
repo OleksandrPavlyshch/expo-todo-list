@@ -1,11 +1,6 @@
 import React, { useContext, useReducer, useEffect } from "react";
 import {
-    ADD_TODO,
-    REMOVE_TODO,
-    CHANGE_TODO,
     ADD_TODOS,
-    REMOVE_ALL_TODOS,
-    TODOS_URL,
     SET_USER,
 } from "../constants";
 
@@ -30,64 +25,6 @@ const reducer = (state, action) => {
                 loading: false,
                 todos: action.todos,
             };
-        case ADD_TODO:
-            return {
-                ...state,
-                todos: [action.todo, ...state.todos],
-                history: {
-                    ...state.history,
-                    created: ++state.history.created,
-                },
-            };
-        case REMOVE_ALL_TODOS:
-            return {
-                ...state,
-                todos: [],
-                history: {
-                    ...state.history,
-                    delited: state.todos.length,
-                },
-            };
-        case REMOVE_TODO:
-            const todo = state.todos.find((t) => t.id === action.id);
-            const index = state.todos.indexOf(todo);
-            state.todos.splice(index, 1);
-            return {
-                ...state,
-                todos: state.todos,
-                history: {
-                    ...state.history,
-                    delited: ++state.history.delited,
-                },
-            };
-        case CHANGE_TODO:
-            const newTodos = [...state.todos];
-            const todoToChange = newTodos.find(
-                (t) => t.id === action.payload.id
-            );
-            const todoToChangeindex = newTodos.indexOf(todoToChange);
-            const updatedTodo = { ...todoToChange, ...action.payload.newData };
-            newTodos.splice(todoToChangeindex, 1, updatedTodo);
-            const newCompletedValue = () => {
-                if (
-                    !state.history.completed &&
-                    !action.payload.newData.completed
-                )
-                    return state.history.completed;
-
-                return (
-                    state.history.completed +
-                    (action.payload.newData.completed ? 1 : -1)
-                );
-            };
-            return {
-                ...state,
-                todos: newTodos,
-                history: {
-                    ...state.history,
-                    completed: newCompletedValue(),
-                },
-            };
         default:
             return state;
     }
@@ -99,11 +36,6 @@ export const TodoProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, {
         todos: [],
         loading: false,
-        history: {
-            delited: 0,
-            completed: 0,
-            created: 0,
-        },
         user: null,
         loading: true,
     });
@@ -121,9 +53,20 @@ export const TodoProvider = ({ children }) => {
                 alert(error);
             });
     };
-    const removeTodo = (id) => dispatch({ type: REMOVE_TODO, id });
-    const removeAllTodos = () => dispatch({ type: REMOVE_ALL_TODOS });
-    const changeTodo = (payload) => dispatch({ type: CHANGE_TODO, payload });
+    const removeTodo = (id) => entityRef.doc(id).delete();
+    const changeTodo = (payload) => {
+        entityRef
+            .doc(payload.id)
+            .update({
+                completed: payload.newData.completed,
+            })
+            .then(function () {
+                console.log("Document successfully updated!");
+            })
+            .catch(function (error) {
+                console.error("Error updating document: ", error);
+            });
+    };
     const setUser = (payload) => dispatch({ type: SET_USER, payload });
 
     const getUserTodos = (user) => {
@@ -160,10 +103,10 @@ export const TodoProvider = ({ children }) => {
                         getUserTodos(userData);
                     })
                     .catch((error) => {
-                        // setLoading(false);
+                        console.log(error)
                     });
             } else {
-                // setLoading(false);
+                console.log('User not exist');
             }
         });
     }, []);
@@ -173,12 +116,10 @@ export const TodoProvider = ({ children }) => {
             value={{
                 loading: state.loading,
                 todos: state.todos,
-                history: state.history,
                 user: state.user,
                 addTodo,
                 addTodos,
                 removeTodo,
-                removeAllTodos,
                 changeTodo,
                 setUser,
             }}

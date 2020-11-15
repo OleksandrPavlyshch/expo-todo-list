@@ -8,7 +8,6 @@ export default function TodoListItem({ title, id, completed }) {
     const { changeTodo, removeTodo } = useTodo();
 
     function updateTodoHandler () {
-        console.log('update todo')
         changeTodo({
             id,
             newData: {
