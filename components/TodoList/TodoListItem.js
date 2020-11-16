@@ -1,13 +1,13 @@
-import React from 'react';
-import { StyleSheet, TouchableOpacity } from "react-native";
-// import TouchableScale from "react-native-touchable-scale";
-import { ListItem } from 'react-native-elements';
+import React from "react";
+import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { Icon} from "react-native-elements";
 import { useTodo } from "../../context/todoContext";
 
 export default function TodoListItem({ title, id, completed }) {
     const { changeTodo, removeTodo } = useTodo();
 
-    function updateTodoHandler () {
+    function updateTodoHandler() {
         changeTodo({
             id,
             newData: {
@@ -17,59 +17,72 @@ export default function TodoListItem({ title, id, completed }) {
     }
 
     return (
-        <ListItem
-            bottomDivider
-            // Component={TouchableScale}
-            Component={TouchableOpacity}
-            friction={95}
-            tension={50}
-            activeScale={0.98}
-            containerStyle={styles.Item}
-            linearGradientProps={{
-                colors: completed
-                    ? ["#20BF55", "#01BAEF"]
-                    : ["#F53844", "#42378F"],
-                start: { x: 1, y: 0 },
-                end: { x: 0.2, y: 0 },
-            }}
-            onPress={updateTodoHandler}
-        >
-            <ListItem.CheckBox
-                checkedColor="#fff"
-                uncheckedColor="#fff"
-                checked={completed}
-                onPress={updateTodoHandler}
-            />
-            <ListItem.Content>
-                <ListItem.Title
-                    style={[styles.Title, completed && styles.completedTitle]}
+        <View>
+            <TouchableOpacity onPress={updateTodoHandler}>
+                <LinearGradient
+                    colors={
+                        completed
+                            ? ["#20BF55", "#01BAEF"]
+                            : ["#F53844", "#42378F"]
+                    }
+                    start={{ x: 1, y: 0 }}
+                    end={{ x: 0.2, y: 0 }}
+                    style={styles.container}
                 >
-                    {title}
-                </ListItem.Title>
-            </ListItem.Content>
-            <ListItem.Chevron
-                size={24}
-                color="white"
-                type="material"
-                name="delete"
-                onPress={() => removeTodo(id)}
-            />
-        </ListItem>
+                    <Icon
+                        style={styles.buttonIcon}
+                        size={28}
+                        name={
+                            completed
+                                ? "check-circle"
+                                : "radio-button-unchecked"
+                        }
+                        type="material"
+                        color="white"
+                    />
+                    <Text
+                        style={[
+                            styles.Title,
+                            completed && styles.completedTitle,
+                        ]}
+                    >
+                        {title}
+                    </Text>
+                    <Icon
+                        style={styles.buttonIcon}
+                        size={28}
+                        name="delete"
+                        type="material"
+                        color="white"
+                        onPress={() => removeTodo(id)}
+                    />
+                </LinearGradient>
+            </TouchableOpacity>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
-    Item: {
+    container: {
+        padding: 10,
+        paddingRight: 15,
+        paddingLeft: 15,
+        borderRadius: 12,
+        minHeight: 50,
         marginTop: 10,
-        minHeight: 60,
-        borderRadius: 15,
+        justifyContent: "space-between",
+        flexDirection: "row",
+        alignItems: "center",
     },
     Title: {
         color: "white",
         fontWeight: "bold",
+        flex: 1,
+        paddingLeft: 10,
+        paddingRight: 10,
+        fontSize: 16,
     },
     completedTitle: {
-        textDecorationLine: "line-through"
+        textDecorationLine: "line-through",
     },
 });
-

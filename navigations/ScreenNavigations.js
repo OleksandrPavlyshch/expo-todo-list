@@ -6,8 +6,7 @@ import UserScreen from "../screens/UserScreen/UserScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useTodo } from "../context/todoContext";
-import { Icon, Button } from "react-native-elements";
-
+import { ActivityIndicator } from "react-native";
 
 const Stack = createStackNavigator();
 
@@ -27,7 +26,14 @@ const styleOptions = {
 };
 
 export default function ScreenNavigations() {
-    const { user} = useTodo();
+    const { user, userLoading } = useTodo();
+    if (userLoading) {
+        return (
+            <>
+                <ActivityIndicator size="small" color="#fff" />
+            </>
+        );
+    }
 
     return (
         <>

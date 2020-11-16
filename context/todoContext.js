@@ -1,8 +1,5 @@
 import React, { useContext, useReducer, useEffect } from "react";
-import {
-    ADD_TODOS,
-    SET_USER,
-} from "../constants";
+import { ADD_TODOS, SET_USER, SET_USER_LOADING } from "../constants";
 
 import { firebase } from "../firebase/config";
 
@@ -25,6 +22,11 @@ const reducer = (state, action) => {
                 loading: false,
                 todos: action.todos,
             };
+        case SET_USER_LOADING:
+            return {
+                ...state,
+                userLoading: action.status,
+            };
         default:
             return state;
     }
@@ -38,8 +40,10 @@ export const TodoProvider = ({ children }) => {
         loading: false,
         user: null,
         loading: true,
+        userLoading: true
     });
 
+    const setUserLoading = (status) => dispatch({ type: SET_USER_LOADING, status });
     const addTodos = (todos) => dispatch({ type: ADD_TODOS, todos });
     const singOut = () => {
         firebase
@@ -112,6 +116,7 @@ export const TodoProvider = ({ children }) => {
                     .then((document) => {
                         const userData = document.data();
                         setUser(userData);
+                        setUserLoading(false);
                         getUserTodos(userData);
                     })
                     .catch((error) => {
@@ -119,6 +124,7 @@ export const TodoProvider = ({ children }) => {
                     });
             } else {
                 console.log('User not exist');
+                setUserLoading(false);
             }
         });
     }, []);
@@ -129,6 +135,7 @@ export const TodoProvider = ({ children }) => {
                 loading: state.loading,
                 todos: state.todos,
                 user: state.user,
+                userLoading: state.userLoading,
                 addTodo,
                 addTodos,
                 removeTodo,
