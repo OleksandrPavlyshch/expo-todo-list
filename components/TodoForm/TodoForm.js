@@ -6,7 +6,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 
 export default function Todoform() {
-    const { addTodo } = useTodo();
+    const { addTodo, isMobile } = useTodo();
     let schema = yup.object().shape({
         todo: yup.string()
             .min(2, "Mininum 2 characters")
@@ -25,7 +25,7 @@ export default function Todoform() {
 
 
     return (
-        <View style={styles.form}>
+        <View style={[styles.form, !isMobile && styles.formDesctop]}>
             <Formik
                 initialValues={{ todo: "" }}
                 validationSchema={schema}
@@ -81,6 +81,9 @@ const styles = StyleSheet.create({
         padding: 10,
         paddingTop: 16,
         paddingBottom: 25,
+    },
+    formDesctop: {
+        flexBasis: "40%",
     },
     buttonIcon: {
         marginLeft: 10,

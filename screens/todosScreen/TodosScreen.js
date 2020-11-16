@@ -1,12 +1,13 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import Todoform from "../../components/TodoForm/TodoForm";
+import TodoForm from "../../components/TodoForm/TodoForm";
 import TodoListItem from "../../components/TodoList/TodoList";
 import { Icon, Button } from "react-native-elements";
-// import AppHeader from "../../components/AppHeader/AppHeader";
+import { useTodo } from "../../context/todoContext";
 
 export default function TodosScreen({ navigation }) {
+    const { isMobile } = useTodo();
     navigation.setOptions({
         headerRight: () => (
             <Button
@@ -27,9 +28,9 @@ export default function TodosScreen({ navigation }) {
     return (
         <LinearGradient
             colors={["#380036", "#0CBABA"]}
-            style={styles.container}
+            style={isMobile ? styles.container : styles.containerBigscreen}
         >
-            <Todoform />
+            <TodoForm />
             <TodoListItem />
         </LinearGradient>
     );
@@ -39,8 +40,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column",
-        backgroundColor: "#fff",
         alignItems: "stretch",
         justifyContent: "space-between",
+    },
+    containerBigscreen: {
+        display: "flex",
+        flex: 1,
+        flexDirection: "row",
     },
 });

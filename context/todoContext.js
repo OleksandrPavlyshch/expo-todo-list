@@ -1,6 +1,7 @@
 import React, { useContext, useReducer, useEffect } from "react";
 import { ADD_TODOS, SET_USER, SET_USER_LOADING } from "../constants";
-
+import "@expo/match-media";
+import { useMediaQuery } from "react-responsive";
 import { firebase } from "../firebase/config";
 
 const TodoContext = React.createContext();
@@ -35,12 +36,18 @@ const reducer = (state, action) => {
 export const TodoProvider = ({ children }) => {
     const entityRef = firebase.firestore().collection("entities");
 
+    const isTabletOrMobileDevice = useMediaQuery({
+        maxDeviceWidth: 1224
+    });
+
+
     const [state, dispatch] = useReducer(reducer, {
         todos: [],
         loading: false,
         user: null,
         loading: true,
-        userLoading: true
+        userLoading: true,
+        isMobile: isTabletOrMobileDevice
     });
 
     const setUserLoading = (status) => dispatch({ type: SET_USER_LOADING, status });
@@ -136,6 +143,7 @@ export const TodoProvider = ({ children }) => {
                 todos: state.todos,
                 user: state.user,
                 userLoading: state.userLoading,
+                isMobile: state.isMobile,
                 addTodo,
                 addTodos,
                 removeTodo,
