@@ -9,8 +9,7 @@ import TodoListItem from './TodoListItem';
 import { useTodo } from "../../context/todoContext";
 
 export default function TodoList(props) {
-    const { loading, todos, changeTodo, removeTodo } = useTodo();
-
+    const { loading, todos } = useTodo();
 
     return (
         <SafeAreaView style={styles.container}>

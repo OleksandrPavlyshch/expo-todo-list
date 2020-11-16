@@ -41,6 +41,18 @@ export const TodoProvider = ({ children }) => {
     });
 
     const addTodos = (todos) => dispatch({ type: ADD_TODOS, todos });
+    const singOut = () => {
+        firebase
+            .auth()
+            .signOut()
+            .then(function () {
+                console.log("Sign-out successful");
+                setUser(null);
+            })
+            .catch(function (error) {
+                console.log(error, "An error happened");
+            });
+        };
     const addTodo = (todo) => {
         const timestamp = firebase.firestore.FieldValue.serverTimestamp();
         entityRef
@@ -122,6 +134,7 @@ export const TodoProvider = ({ children }) => {
                 removeTodo,
                 changeTodo,
                 setUser,
+                singOut,
             }}
         >
             {children}

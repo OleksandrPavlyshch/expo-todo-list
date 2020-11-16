@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Input, Icon, Button } from "react-native-elements";
 import {  View, StyleSheet } from "react-native";
-import { useTodo, user } from "../../context/todoContext";
+import { useTodo } from "../../context/todoContext";
 import { Formik } from "formik";
 import * as yup from "yup";
 
