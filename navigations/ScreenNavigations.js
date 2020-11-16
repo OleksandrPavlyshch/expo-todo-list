@@ -12,7 +12,9 @@ const Stack = createStackNavigator();
 
 const styleOptions = {
     headerStyle: {
-        backgroundColor: "transparent",
+        backgroundColor: "#380036",
+        borderBottomWidth: 1,
+        borderColor: "#fff",
     },
     cardStyle: {
         backgroundColor: "transparent",
