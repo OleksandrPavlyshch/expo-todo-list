@@ -3,9 +3,8 @@ import { StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useTodo } from "../../context/todoContext";
 import { Icon, Button } from "react-native-elements";
-import { firebase } from "../../firebase/config";
 
-export default function UserScreen(props) {
+export default function UserScreen() {
     const { user, singOut } = useTodo();
     const onLogoutPress = () => {
         singOut();
